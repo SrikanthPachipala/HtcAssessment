@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Student List</title>
+    <style>
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+        .pagination {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .pagination a {
+            margin: 0 5px;
+            text-decoration: none;
+            padding: 5px 10px;
+            background-color: #eee;
+            border: 1px solid #ccc;
+        }
+        .pagination a.active {
+            font-weight: bold;
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">Student List</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Address</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="student : ${students}">
+                <td th:text="${student.stdId}"></td>
+                <td th:text="${student.stdName}"></td>
+                <td th:text="${student.stdAddr}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="pagination">
+        <a th:if="${currentPage > 1}" th:href="@{/(page=${currentPage - 1})}">&laquo; Prev</a>
+
+        <span th:each="i : ${#numbers.sequence(1, totalPages)}">
+            <a th:href="@{/(page=${i})}" th:classappend="${i == currentPage} ? 'active'" th:text="${i}"></a>
+        </span>
+
+        <a th:if="${currentPage < totalPages}" th:href="@{/(page=${currentPage + 1})}">Next &raquo;</a>
+    </div>
+</body>
+</html>
